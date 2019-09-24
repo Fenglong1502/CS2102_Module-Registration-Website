@@ -10,5 +10,9 @@ router.get('/testing', function(req, res, next) {
   res.render('testing', {title: 'asd'});
 });
 
+router.get('/appeal', function(req, res, next) {
+  res.render('appeal', {title: 'Appeal'});
+});
+
 
 module.exports = router;
