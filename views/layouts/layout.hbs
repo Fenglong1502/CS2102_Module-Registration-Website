@@ -1,23 +1,53 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>{{ title }}</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
-
   <link href="https://fonts.googleapis.com/css?family=DM+Sans:300,400,700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="fonts/icomoon/style.css">
-
   <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+  <link rel="stylesheet" href="/stylesheets/docs.min.css">
   <link rel="stylesheet" href="/stylesheets/bootstrap-datepicker.css">
   <link rel="stylesheet" href="/stylesheets/jquery.fancybox.min.css">
   <link rel="stylesheet" href="/stylesheets/owl.carousel.min.css">
   <link rel="stylesheet" href="/stylesheets/owl.theme.default.min.css">
-  {{!-- <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css"> --}}
   <link rel="stylesheet" href="/stylesheets/aos.css">
-</head> 
+</head>
+
 <body>
-  {{{ body }}}
+  <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
+    <a class="navbar-brand mr-0 mr-md-2" href="localhost:3000/" aria-label="Bootstrap">
+      <img src="/images/logo2.png" width="280" height="70" />
+    </a>
+    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+      <li class="nav-item" style="color: white">
+        UserName
+      </li>
+    </ul>
+    <a class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="localhost:3000">Logout</a>
+  </header>
+
+
+  <div class="container-fluid">
+    <div class="row flex-xl-nowrap">
+      <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
+        <nav class="collapse bd-links" id="bd-docs-nav">
+          <div class="bd-toc-item">
+            {{# each anyArray as |val key|}}
+            <a class="bd-toc-link" href="localhost:3000">
+              navigation {{val}}
+            </a>
+            {{/ each}}
+          </div>
+        </nav>
+      </div>
+      <main class="col-12 col-md-9 col-xl-10 py-md-3 pl-md-5 bd-content" role="main">
+        {{{ body }}}
+      </main>
+
+    </div>
+  </div>
 </body>
+
 </html>
