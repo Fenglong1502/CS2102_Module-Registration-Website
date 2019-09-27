@@ -3,11 +3,19 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' , condition: true, anyArray:[1,2,3]});
+  res.render('index', { title: 'ModRec - Homepage' , condition: true, anyArray:[1,2,3]});
 });
 
 router.get('/testing', function(req, res, next) {
-  res.render('testing', {title: 'asd'});
+  res.render('testing', {title: 'asd', anyArray:[1,2]});
+});
+
+router.get('/appeal', function(req, res, next) {
+  res.render('appeal', {title: 'Appeal'});
+});
+
+router.get('/login', function(req, res, next) {
+  res.render('login', {title: 'ModRec - Login Page', logoTitle: 'ModRec',layout: false});
 });
 
 router.get('/studentInfo', function(req, res, next) {
