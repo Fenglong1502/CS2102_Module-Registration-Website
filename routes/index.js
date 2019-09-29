@@ -13,13 +13,13 @@ router.get('/testing', function(req, res, next) {
 router.get('/appeal', function(req, res, next) {
   res.render('appeal', {title: 'Appeal'});
 });
-
+``
 router.get('/login', function(req, res, next) {
   res.render('login', {title: 'ModRec - Login Page', logoTitle: 'ModRec',layout: false});
 });
 
 router.get('/studentInfo', function(req, res, next) {
-  res.render('studentInfo', {title: 'asd'});
+  res.render('studentInfo', {title: 'StudentInfo'});
 });
 
 
