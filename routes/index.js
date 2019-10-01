@@ -30,5 +30,9 @@ router.get('/allmodules', function(req, res, next) {
   res.render('allmodules', {title: 'All Modules', anyArray:[1,2,3]});
 });
 
+router.get('/modcreate', function(req, res, next) {
+  res.render('modcreate', {title: 'ModRec - Module Creation', logoTitle: 'ModRec', anyArray:[1,2,3]});
+});
+
 
 module.exports = router;
