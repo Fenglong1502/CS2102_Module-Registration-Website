@@ -26,6 +26,19 @@ router.get('/studentInfo', function(req, res, next) {
   res.render('studentInfo', {title: 'Student Information'});
 });
 
+router.get('/addModule', function(req, res, next) {
+  res.render('addModule', { title: 'ModRec - Add a Module' , anyArray:[1,2,3]});
+});
+
+router.get('/registeredModule', function(req, res, next) {
+  res.render('registeredModule', { title: 'ModRec - Display all registered modules' , anyArray:[1,2,3]});
+});
+
+
+router.get('/viewModules', function(req, res, next) {
+  res.render('viewRegisteredModules', { title: 'ModRec - View Registered Modules'});
+});
+
 router.get('/allmodules', function(req, res, next) {
   res.render('allmodules', {title: 'All Modules', anyArray:[1,2,3]});
 });
