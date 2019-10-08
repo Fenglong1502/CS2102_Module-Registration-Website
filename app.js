@@ -26,7 +26,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 // app.use('/users', usersRouter);
-app.get('/users', db.getUsers);
+app.get('/allTesting', db.getTesting);
+app.post('/testings', db.createTesting); //create
+// app.put('/testing/:id', db.updateTesting); //update
+// app.delete('/testing/:id', db.deleteUser); // delete
 
 
 // catch 404 and forward to error handler
