@@ -22,5 +22,8 @@ router.get('/studentInfo', function(req, res, next) {
   res.render('studentInfo', {title: 'StudentInfo'});
 });
 
+router.get('/viewModuleDetail', function(req, res, next) {
+  res.render('viewModuleDetail', {title: 'ModuleDetail'});
+});
 
 module.exports = router;
