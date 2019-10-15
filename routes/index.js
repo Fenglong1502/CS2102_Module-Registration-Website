@@ -1,14 +1,16 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+
+const pool = require('../database');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'ModRec - Homepage' , condition: true, anyArray:[1,2,3]});
 });
 
-router.get('/testing', function(req, res, next) {
-  res.render('testing', {title: 'test', anyArray:[1,2]});
-});
+// router.get('/testing', function(req, res, next) {
+//   res.render('testing', {title: 'test', anyArray:[1,2]});
+// });
 
 router.get('/appeal', function(req, res, next) {
   res.render('appeal', { title: 'ModRec - Appeal' , anyArray:[1,2,3]});

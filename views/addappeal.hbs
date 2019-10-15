@@ -1,35 +1,40 @@
-<div class="form-group row">
-    <div class="col-md-12">
-        <form action="appeal">
-            <button type="submit">Add Appeal</button>
-        </form>
-    </div>
-</div>
+<div class="row">
+  <div class="col-lg-8 mb-5" >
+    <form action="/appeals/addAppeal" method="POST">
 
-<table style="width:100%">
-  <tr>
-    <th>Acad. Year</th>
-    <th>Semester</th>
-    <th>Round</th>
-    <th>Module Code</th>
-    <th>Appeal Type</th>
-    <th>Status</th>
-    
-  </tr>
-  <tr>
-    <td>19/20</td>
-    <td>1</td>
-    <td>3</td>
-    <td>CS2102</td>
-    <td>Module Appeal</td>
-    <td>Approved</td>
-  </tr>
-  <tr>
-    <td>19/20</td>
-    <td>1</td>
-    <td>3</td>
-    <td>IS3103</td>
-    <td>Max Workload Waiver</td>
-    <td>Pending Approval By Home</td>
-  </tr>
-</table>
+      <div class="form-group row">
+        <div class="col-md-5 mr-auto">
+          <label for="cf-1">Module Code:</label>
+          <input name="moduleCode" id="cf-1" placeholder="Enter Module Code Here" class="form-control" />
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-md-3 mr-auto">
+          <p>  
+            <label>Appeal Type:</label>
+            <select name="type">    
+              <option value="" selected="selected"></option>
+              <option value="Max Workload Waiver">Max Workload Waiver</option>
+              <option value="Module Appeal">Module Appeal</option>
+              <option value="Others">Others</option>  
+            </select>
+          </p>  
+        </div>
+      </div>
+              
+      <div class="form-group row">
+        <div class="col-md-12">
+            <label>Appeal Details:</label>
+            <textarea name="detail" id="" class="form-control" placeholder="Add Appeal Details (Max. Limit 254 chars)" cols="30" rows="10"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-md-6 mr-auto">
+          <a href="/appeals/viewAllAppeals" class="ml-auto btn btn-primary">Back</a>
+          <input class="btn btn-primary" type="submit" value="Submit" />
+        </div>
+      </div>
+  </form>
+</div>

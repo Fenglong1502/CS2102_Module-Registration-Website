@@ -1,22 +1,19 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const hbs = require('express-handlebars');
 
-var hbs = require('express-handlebars');
+const db = require('./database')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
-var db = require('./queries')
-
-var app = express();
+const app = express();
 
 // view engine setup
 app.engine('hbs', hbs({extname: 'hbs', defaultLayout:'layout', layoutsDir: __dirname + '/views/layouts/'}));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -24,18 +21,41 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-// app.use('/users', usersRouter);
-app.get('/allTesting', db.getTesting);
-app.post('/testings', db.createTesting); //create
-// app.put('/testing/:id', db.updateTesting); //update
-// app.delete('/testing/:id', db.deleteUser); // delete
 
+// Redirect home route to index
+app.get('/', (req, res) => {
+  // if (req.isAuthenticated()) {
+  //     res.redirect('/index');
+  // } else {
+      res.render('index'); //change to login page
+  // }
+});
+
+let index = require('./routes/index');
+let users = require('./routes/users');
+let appeals = require('./routes/appeals');
+let majors = require('./routes/majors');
+let modules = require('./routes/modules');
+let registeredModules = require('./routes/registeredModules');
+
+app.use('/index', index);
+app.use('/users', users);
+app.use('/appeals', appeals);
+app.use('/majors', majors);
+app.use('/modules', modules);
+app.use('/registeredModules', registeredModules);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+
+/*
+    Create sessioning  
+
+*/
+
 
 // error handler
 app.use(function(err, req, res, next) {
