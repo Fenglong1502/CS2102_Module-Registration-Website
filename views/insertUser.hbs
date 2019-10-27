@@ -1,0 +1,66 @@
+<div class="row">
+    <div class="col-lg-8 mb-5">
+        <form action="/users/insertUser" method="POST">
+
+            <div class="form-group row">
+                <div class="col-md-5 mr-auto">
+                    <label for="cf-1">NusnetID:</label>
+                    <input name="nusnetID" id="cf-1" placeholder="Enter Nusnet ID Here" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-3 mr-auto">
+                    <p>
+                        <label>User Type:</label>
+                        <select name="userType">
+                            <option value="student" selected="selected">Student</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label>Password:</label>
+                    <input name="password" id="cf-1" placeholder="Enter Password Here" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label>First Name:</label>
+                    <input name="fname" id="cf-1" placeholder="Enter First Name Here" class="form-control" />
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label>Last Name:</label>
+                    <input name="lname" id="cf-1" placeholder="Enter Last Name Here" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label>Year</label>
+                    <input name="year" id="cf-1" placeholder="Enter Year Here" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-12">
+                    <label>Module Credit:</label>
+                    <input name="moduleCredit" id="cf-1" placeholder="Enter Module Credit Here" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-6 mr-auto">
+                    <input class="btn btn-primary" type="submit" value="Create User" />
+                </div>
+            </div>
+        </form>
+    </div>

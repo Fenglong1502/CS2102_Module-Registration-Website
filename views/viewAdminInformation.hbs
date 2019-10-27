@@ -1,0 +1,33 @@
+<div class="ftco-blocks-cover-1">
+
+
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-12" style="padding-right:0px !important">
+        <div class="feature-car-rent-box-1" style="height:600px;  box-shadow: -8px 0px 8px -8px grey;">
+          <div class="col-lg-12" style="text-align:center">
+            <img src="images/img_avatar2.png" style="border-radius: 50%; height:150px; margin-bottom:20px" alt="Avatar">
+          </div>
+
+
+          <ul class="list-unstyled">
+            <li>
+              <span>Full Name</span>
+              <span class="spec">{{user.fname}} {{user.lname}}</span>
+            </li>
+            <li>
+              <span>Course</span>
+              {{#if student.[0].majorname}}
+              <span class="spec">{{student.[0].majorname}}</span>
+              {{else}}
+              <span class="spec">N/A</span>
+              {{/if}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

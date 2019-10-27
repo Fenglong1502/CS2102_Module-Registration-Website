@@ -1,119 +1,68 @@
-<div class="ftco-blocks-cover-1" >
+<div class="ftco-blocks-cover-1">
 
 
-      <div class="container" >
-          <div class="row align-items-center">
-            <div class="col-lg-5" style="padding-right:0px !important">
-              <div class="feature-car-rent-box-1" style="height:600px;  box-shadow: -8px 0px 8px -8px grey;">
-                  <div class="col-lg-12" style="text-align:center">
-<img src="images/img_avatar2.png" style="border-radius: 50%; height:150px; margin-bottom:20px" alt="Avatar">
-                  </div>
-                  
-              
-                <ul class="list-unstyled">
-                    <li>
-                    <span>Full Name</span>
-                    <span class="spec">Lim Si Min, Clarisse</span>
-                  </li>
-                  <li>
-                    <span>Course</span>
-                    <span class="spec">Information Systems</span>
-                  </li>
-                  <li>
-                    <span>Faculty</span>
-                    <span class="spec">School of Computing</span>
-                  </li>
-                  <li>
-                    <span>Specialisation</span>
-                    <span class="spec">N/A</span>
-                  </li>
-                  <li>
-                    <span>Minor</span>
-                    <span class="spec">N/A</span>
-                  </li>
-                  <li>
-                    <span>Second Major</span>
-                    <span class="spec">N/A</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-lg-7" style="padding-left:0px !important">
-                   <div class="col-lg-12" style="padding-left:0px !important" >
-                       <div class="feature-car-rent-box-1" style=" height:600px;  box-shadow: 8px 0px 8px -8px grey;">
-<h3 style="text-align:center">My Modules</h3>
-                <div class=row>
-                 <div class="col-lg-3">
-                    <a href="#" style="text-decoration:none; left: 0px; position:absolute" class="btn btn-primary custom-prev">Previous</a>
-                </div>
-                <div class="col-lg-6">
-                    <p style="text-align:center">AY2016/2017 Semester 1</p>
-                </div>
-                <div class="col-lg-3">
-                    <a href="#" style="text-decoration:none; right: 0px; position:absolute"  class="btn btn-primary custom-next">Next</a>
-                </div>
-                </div>
-            </br>
-            <div class="nonloop-block-13 owl-carousel">
-              <div class="item-1">
-                <div class="item-1-contents">
-                  <ul class="specs">
-                    <li>
-                      <span>Doors</span>
-                      <span class="spec">4</span>
-                    </li>
-                    <li>
-                      <span>Seats</span>
-                      <span class="spec">5</span>
-                    </li>
-                    <li>
-                      <span>Transmission</span>
-                      <span class="spec">Automatic</span>
-                    </li>
-                    <li>
-                      <span>Minium age</span>
-                      <span class="spec">18 years</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-
-              <div class="item-1">
-                <div class="item-1-contents">
-                  <div class="text-center">
-                  <h3><a href="#">Range Rover S64 Coupe</a></h3>
-                  <div class="rent-price"><span>$250/</span>day</div>
-                  </div>
-                  <ul class="specs">
-                    <li>
-                      <span>Doors</span>
-                      <span class="spec">4</span>
-                    </li>
-                    <li>
-                      <span>Seats</span>
-                      <span class="spec">5</span>
-                    </li>
-                    <li>
-                      <span>Transmission</span>
-                      <span class="spec">Automatic</span>
-                    </li>
-                    <li>
-                      <span>Minium age</span>
-                      <span class="spec">18 years</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-                       </div>
-            
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-12" style="padding-right:0px !important">
+        <div class="feature-car-rent-box-1" style="height:600px;  box-shadow: -8px 0px 8px -8px grey;">
+          <div class="col-lg-12" style="text-align:center">
+            <img src="/images/img_avatar2.png" style="border-radius: 50%; height:150px; margin-bottom:20px" alt="Avatar">
           </div>
-          
-            
-            </div>
-          </div>
+
+
+          <ul class="list-unstyled">
+            <li>
+              <span>Full Name</span>
+              <span class="spec">{{user.fname}} {{user.lname}}</span>
+            </li>
+            <li>
+              <span>Course</span>
+              {{#if student.[0].majorname}}
+              <span class="spec">{{student.[0].majorname}}</span>
+              {{else}}
+              <span class="spec">N/A</span>
+              {{/if}}
+            </li>
+            <li>
+              <span>Faculty</span>
+              {{#if student.[0].faculty}}
+              <span class="spec">{{student.[0].faculty}}</span>
+              {{else}}
+              <span class="spec">N/A</span>
+              {{/if}}
+
+            </li>
+            <li>
+              <span>Specialization</span>
+              {{#if student.[0].Specializationname}}
+              <span class="spec">{{student.[0].Specializationname}}</span>
+              {{else}}
+              <span class="spec">N/A</span>
+              {{/if}}
+
+            </li>
+            <li>
+              <span>Minor</span>
+              {{#if student.[0].minorname}}
+              <span class="spec">{{student.[0].minorname}}</span>
+              {{else}}
+              <span class="spec">N/A</span>
+              {{/if}}
+            </li>
+            <li>
+              <span>Second Major</span>
+              {{#if student.[1].majorname}}
+              <span class="spec">{{student.[1].majorname}}</span>
+              {{else}}
+              <span class="spec">N/A</span>
+              {{/if}}
+            </li>
+          </ul>
+        </div>
       </div>
-
       
-</div>  
+    </div>
+  </div>
+
+
+</div>

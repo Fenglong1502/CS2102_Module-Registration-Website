@@ -4,18 +4,15 @@ const expressValidator = require('express-validator');
 
 const pool = require('../database');
 
-router.get("/allAppeals")
-
 router.get('/viewAllAppeals', function (req, res) {
-    const sql = 'SELECT * FROM ModuleAppeal';
-    pool.query(sql, (error, result) => {
-
+    const sql = 'SELECT * FROM ModuleAppeal WHERE nusnetid = $1 AND ay = $2 AND sem = $3';
+    const params = [req.user.nusnetid, req.user.ay, req.user.sem];
+    pool.query(sql, params, (error, result) => {
         if (error) {
             console.log('err: ', error);
         } else {
             res.render('viewAllAppeals', {
                 appeals: result.rows,
-
             })
         }
     });
@@ -27,32 +24,21 @@ router.get('/addAppeal', function (req, res) {
 });
 
 
-
 router.post("/addAppeal", (req, res) => {
-    // req.checkBody("moduleCode", "Module Code is required").notEmpty();
-    // req.checkBody("type", "Please select the appeal type").notEmpty();
-    // let errors = req.validationErrors();
-    // if (errors) {
-    //   res.render('addAppeal');
-    //   console.log(errors);
-  
-    // } else {
-      const sql = "INSERT INTO ModuleAppeal VALUES ('E1234567', $1, '19/20', 2, 1, $2, 'Pending', $3);";
+      const sql = "INSERT INTO ModuleAppeal VALUES ( $1, $2, $3, $4, $5, $6, $7, $8);";
       var modCode = req.body.moduleCode;
       var type = req.body.type;
       var detail = req.body.detail;
+      var status = "Pending";
 
-      const params = [moduleCode, detail, type];
+      const params = [req.user.nusnetid, modCode, req.user.ay, req.user.sem, req.user.round, detail, status ,type];
       pool.query(sql, params, (error, result) => {
         if (error) {
           console.log("err: ", error);
         }
         console.log("result?", result);
-        res.redirect("/viewAllAppeals");
+        res.redirect("/appeals/viewAllAppeals");
       });
-    // }
   });
-  
-
 
 module.exports = router;

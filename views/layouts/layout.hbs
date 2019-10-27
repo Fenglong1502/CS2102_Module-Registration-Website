@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="/stylesheets/jquery.fancybox.min.css">
   <link rel="stylesheet" href="/stylesheets/owl.carousel.min.css">
   <link rel="stylesheet" href="/stylesheets/owl.theme.default.min.css">
+  <link rel="stylesheet" href="/stylesheets/AdminLTE.min.css">
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/stylesheets/aos.css">
   <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
 
@@ -23,7 +25,6 @@
 </head>
 
 <body>
-
   <script src="./js/jquery-3.3.1.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
@@ -35,6 +36,7 @@
   <script src="js/jquery.easing.1.3.js"></script>
   <script src="js/bootstrap-datepicker.min.js"></script>
   <script src="js/aos.js"></script>
+  <script src="js/adminlte.min.js"></script>
   <script src="js/main.js"></script>
   <script src="./vendor/select2/select2.min.js"></script>
 
@@ -43,34 +45,51 @@
     <a class="navbar-brand mr-0 mr-md-2" href="localhost:3000/" aria-label="Bootstrap">
       <img src="/images/logo2.png" width="280" height="70" />
     </a>
+    {{#if user}}
     <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
       <li class="nav-item" style="color: white">
-        UserName
+        {{#if user.isStudent }}
+        <a class="mb-3 mb-md-0 ml-md-3" href="/users/viewStudentInformation">{{user.fname}} {{user.lname}}</a>
+        {{else}}
+        <a class="mb-3 mb-md-0 ml-md-3" href="/users/viewAdminInformation">{{user.fname}} {{user.lname}}</a>
+        {{/if}}
       </li>
     </ul>
-    <a class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="localhost:3000">Logout</a>
-  </header>
 
+    <a class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="/users/logout">Logout</a>
+
+    {{else}}
+    <a class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="/users/login">Login</a>
+    {{/if}}
+  </header>
 
   <div class="container-fluid">
     <div class="row flex-xl-nowrap">
       <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
         <nav class="collapse bd-links" id="bd-docs-nav">
           <div class="bd-toc-item">
-            <a class="bd-toc-link" href="/users/login">Login</a>
-            <a class="bd-toc-link" href="/appeals/addAppeal">Add Appeal</a>
-            <a class="bd-toc-link" href="/modules/addModule">Add Module</a>
-            <a class="bd-toc-link" href="/appeals/viewAllAppeals">View All Appeals</a>
-            <a class="bd-toc-link" href="/modules/createModule">Create New Module</a>
-            <a class="bd-toc-link" href="/modules/registerModule">Register Module</a>
-            <a class="bd-toc-link" href="/users/viewStudentInformation">Student Information</a>
-            <a class="bd-toc-link" href="/modules/viewModuleDetail">View Module Detail</a>
+            {{#if user.isAdmin }}
             <a class="bd-toc-link" href="/modules/viewAllModules">View All Modules (Admin)</a>
-            {{# each anyArray as |val key|}}
-            <a class="bd-toc-link" href="localhost:3000">
-              navigation {{val}}
-            </a>
-            {{/ each}}
+            <a class="bd-toc-link" href="/modules/viewModuleDetail">View Module Detail</a>
+            <a class="bd-toc-link" href="/modules/createModule">Create New Module</a>
+            {{/if}}
+            {{#if user.isStudent }}
+            <ul class="sidebar-menu">
+              <li class="header"><span style="font-size: 24px">Modules</span></li>
+              <a class="bd-toc-link" href="/modules/registerNewModule">View All Modules</a>
+              <a class="bd-toc-link" href="/modules/viewRegisteredModule">View Registered Modules</a>
+              <a class="bd-toc-link" href="/modules/viewEnrolledModules">View Enrolled Modules</a>
+
+              <li class="header"><span style="font-size: 24px">Appeals</span></li>
+              <a class="bd-toc-link" href="/appeals/viewAllAppeals">View All Appeals</a>
+              <a class="bd-toc-link" href="/appeals/addAppeal">Add Appeal</a>
+
+              <li class="header"><span style="font-size: 24px">Others</span></li>
+              <a class="bd-toc-link" href="/users/viewStudentInformation">Student Information</a>
+            </ul>
+
+            {{/if}}
+
           </div>
         </nav>
       </div>
