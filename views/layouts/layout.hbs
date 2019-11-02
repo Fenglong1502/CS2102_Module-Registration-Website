@@ -49,9 +49,9 @@
     <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
       <li class="nav-item" style="color: white">
         {{#if user.isStudent }}
-        <a class="mb-3 mb-md-0 ml-md-3" href="/users/viewStudentInformation">{{user.fname}} {{user.lname}}</a>
+        <a class="mb-3 mb-md-0 ml-md-3" href="/users/viewStudentInformation">Welcome, {{user.fname}} {{user.lname}}</a>
         {{else}}
-        <a class="mb-3 mb-md-0 ml-md-3" href="/users/viewAdminInformation">{{user.fname}} {{user.lname}}</a>
+        <a class="mb-3 mb-md-0 ml-md-3" href="/users/viewAdminInformation">Welcome, (Admin) {{user.fname}} {{user.lname}}</a>
         {{/if}}
       </li>
     </ul>
@@ -69,9 +69,22 @@
         <nav class="collapse bd-links" id="bd-docs-nav">
           <div class="bd-toc-item">
             {{#if user.isAdmin }}
-            <a class="bd-toc-link" href="/modules/viewAllModules">View All Modules (Admin)</a>
-            <a class="bd-toc-link" href="/modules/viewModuleDetail">View Module Detail</a>
-            <a class="bd-toc-link" href="/modules/createModule">Create New Module</a>
+            <ul class="sidebar-menu">
+              <li class="header"><span style="font-size: 24px">Modules</span></li>
+              <a class="bd-toc-link" href="/modules/adminViewAllModules">Modules List</a>
+              <a class="bd-toc-link" href="/modules/createModule">Create New Module</a>
+
+              <li class="header"><span style="font-size: 24px">Appeals</span></li>
+              <a class="bd-toc-link" href="/appeals/adminViewAllAppeals">View Students' Appeals</a>
+
+              <li class="header"><span style="font-size: 24px">Students</span></li>
+              <a class="bd-toc-link" href="/users/viewAllStudents">View All Student</a>
+
+              <li class="header"><span style="font-size: 24px">Others</span></li>
+              <a class="bd-toc-link" href="/users/updateRound">Update Rounds</a>
+            </ul>
+
+
             {{/if}}
             {{#if user.isStudent }}
             <ul class="sidebar-menu">

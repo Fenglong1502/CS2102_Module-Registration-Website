@@ -1,0 +1,128 @@
+<div class="site-section pt-0 pb-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="row align-items-center mb-4">
+                    <div class="col-md-6">
+                        <h3 class="m-0"></h3>
+                    </div>
+                    <div class="col-md-6 text-md-right" <span class="text-primary"></span> <span> </span></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <h1> {{module.modulecode}} - {{module.modulename}}
+                    </h1>
+                </div>
+                <form method="POST" action="/modules/updateModule/{{module.modulecode}}"></form>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="cf-1">Module Name</label>
+                        <input type="text" value="{{module.modulename}}" data-role="tagsinput" name="modName"
+                            placeholder="Module Name" class="form-control">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="cf-2">Module code</label>
+                        <input type="text" value="{{module.modulecode}}" name="modCode" placeholder="Module Code"
+                            class="form-control">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="cf-3">Module Credit</label>
+                        <input type="text" value="{{module.credit}}" name="modCredit" placeholder="E.g. 4"
+                            class="form-control">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="cf-1">Quota</label>
+                        <input type="text" value="{{module.quota}}" name="quota" placeholder="E.g. 100"
+                            class="form-control">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="cf-2">Department</label>
+                        <select name="department" value="{{module.department}}" id="department" class="form-control"
+                            placeholder="Select Department">
+                            <option value="CS">Computer Science</option>
+                            <option value="IS">Information System</option>
+                            <option value="BA">Business Analytics</option>
+                            <option value="CE">Computer Engineering</option>
+                            <option value="ISE">Infomration Security</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="cf-3">Semester Offered</label>
+                        <span class="form-control" id="semOffered">
+                            <input type="radio" name="sem" value="sem1"> Sem 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="sem" value="sem2"> Sem 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="radio" name="sem" value="sem12"> Sem 1 & 2
+                        </span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <textarea name="desc" value="{{module.description}}" class="form-control"
+                            placeholder="Module Descrption." cols="30" rows="8"></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-1">
+                        <input type="submit" value="Save" class="btn btn-primary">
+                    </div>
+                    <div class="col-lg-1">
+                        <a href="/modules/adminViewAllModules" class="btn btn-danger">Cancel</a>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="form-group col-md-6">
+                <form method="POST" action="/modules/addPrereq/{{module.modulecode}}">
+                    <div class="form-group col-md-12">
+                        <label for="cf-1">Module Code</label>
+                        <input type="text" name="prereq" placeholder="E.g. CS1010" class="form-control">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input type="submit" value="Add" class="btn btn-primary">
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row mt-5 mb-5">
+            <div class="table">
+                <div class="row header">
+                    <div class="cell">
+                        Pre-req Module
+                    </div>
+                    <div class="cell">
+                    </div>
+                </div>
+
+                {{#each prereq}}
+                <form method="POST" onsubmit="return confirm('Are You Sure?')"
+                    action="/modules/removePrereq/{{this.modulecode}}/{{this.prereqmodulecode}}">
+                    <div class="row" style=" background: #fff;">
+                        <div class="cell" data-title="Full Name">
+                            {{this.prereqmodulecode}}
+                        </div>
+                        <div class="cell" data-title="Age">
+                            <button type="submit">
+                                <span class="fa fa-times-circle"></span>
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

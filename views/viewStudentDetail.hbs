@@ -1,0 +1,90 @@
+<div class="ftco-blocks-cover-1">
+
+
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12" style="padding-right:0px !important">
+                <div class="feature-car-rent-box-1" style="height:600px;  box-shadow: -8px 0px 8px -8px grey;">
+                    <div class="col-lg-12" style="text-align:center">
+                        <img src="/images/profileImage.png" style="border-radius: 50%; height:150px; margin-bottom:20px"
+                            alt="Avatar">
+                    </div>
+
+
+                    <ul class="list-unstyled">
+                        <li>
+                            <span>Full Name</span>
+                            <span class="spec">{{student.fname}} {{student.lname}}</span>
+                        </li>
+                        <li>
+                            <span>Faculty</span>
+                            {{#if student.faculty}}
+                            <span class="spec">{{student.faculty}}</span>
+                            {{else}}
+                            <span class="spec">N/A</span>
+                            {{/if}}
+
+                        </li>
+
+                        <li>
+                            <span>Course</span>
+                            {{#if student.course}}
+                            <span class="spec">{{student.course}}</span>
+                            {{else}}
+                            <span class="spec">N/A</span>
+                            {{/if}}
+                        </li>
+                        <li>
+                            <span>Second Major</span>
+                            {{#if student.secondmajor}}
+                            <span class="spec">{{student.secondmajor}}</span>
+                            {{else}}
+                            <span class="spec">N/A</span>
+                            {{/if}}
+                        </li>
+
+                        <li>
+                            <span>Year of Study</span>
+                            {{#if student.year}}
+                            <span class="spec">{{student.year}}</span>
+                            {{else}}
+                            <span class="spec">N/A</span>
+                            {{/if}}
+                        </li>
+
+                        <li>
+                            <span>Total MCs</span>
+                            {{#if student.modulecredit}}
+                            <span class="spec">{{student.modulecredit}}</span>
+                            {{else}}
+                            <span class="spec">N/A</span>
+                            {{/if}}
+                        </li>
+
+                        <li>
+                            <span>Specialization (Declared)</span>
+                            {{#if student.Specializationname}}
+                            <span class="spec">{{student.Specializationname}}</span>
+                            {{else}}
+                            <span class="spec">N/A</span>
+                            {{/if}}
+
+                        </li>
+                        <li>
+                            <span>Minor</span>
+                            {{#if student.minorname}}
+                            <span class="spec">{{student.secondmajor}}</span>
+                            {{else}}
+                            <span class="spec">N/A</span>
+                            {{/if}}
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

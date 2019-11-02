@@ -1,0 +1,66 @@
+<div class="limiter">
+    <h1>
+        Add Students to AY{{ay}} Sem {{sem}}, {{modulecode}} - {{modulename}}
+    </h1>
+    <div class="container-table100" style="margin-bottom:100px">
+        <div>
+
+            <div class="table">
+
+                <div class="row header">
+                    <div class="cell">
+                        Student ID
+                    </div>
+                    <div class="cell">
+                        Full Name
+                    </div>
+                    <div class="cell">
+                        Course
+                    </div>
+                    <div class="cell">
+                        Year
+                    </div>
+                    <div class="cell">
+                        Core Module
+                    </div>
+                    <div class="cell" style="padding-right:40px;">
+
+                    </div>
+                </div>
+                {{#each students}}
+                <form method="POST"
+                    action="/modules/addStudent/{{../modulecode}}/{{this.nusnetid}}/{{../ay}}/{{../sem}}">
+                    <div class="row" style=" background: #fff;">
+                        <div class="cell" data-title="Age">
+                            {{this.nusnetid}}
+                        </div>
+                        <div class="cell" data-title="Full Name">
+                            {{this.fname}} {{this.lname}}
+                        </div>
+
+                        <div class="cell" data-title="Job Title">
+                            {{this.course}}
+                        </div>
+                        <div class="cell" data-title="Location">
+                            {{this.year}}
+                        </div>
+                        <div class="cell ml-3 mr-3" data-title="Location">
+                            {{#if this.isCore}}
+                            Yes
+                            {{else}}
+                            No
+                            {{/if}}
+                        </div>
+                        <div class="cell" style="padding-right:40px;" data-title="Remove">
+                            <button type="submit">
+                                <span class="fa fa-plus-circle"></span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                {{/each}}
+            </div>
+        </div>
+
+    </div>
+</div>

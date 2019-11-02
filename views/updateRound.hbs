@@ -1,0 +1,28 @@
+<div class="container">
+    <h1>Proceeding to Next Round</h1>
+    <br />
+    <br />
+    <div class="row align-items-center">
+        <div class="row" style="">
+            <div class="col-lg-6" style="padding-right:0px !important; ">
+                <div class="feature-car-rent-box-1" style="background: white">
+                    <ul class="list-unstyled">
+                        <li>
+                            <b>Current Round:</b> AY{{ayround.ay}} Sem:{{ayround.sem}} Round: {{ayround.round}}
+                        </li>
+                        <li>
+                            <b>Next Round:</b> AY{{nextyr}} Sem:{{nextsem}} Round: {{nextround}}
+                        </li>
+                        <li>
+                            <form method="POST" onsubmit="return confirm('Confirm Proceed?')" action="/users/proceedNextRound/{{nextyr}}/{{nextsem}}/{{nextround}}">
+                                <input type="submit" class="btn btn-block btn-success text-white py-3 px-1" value="Proceed">
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

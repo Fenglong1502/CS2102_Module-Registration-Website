@@ -1,0 +1,129 @@
+<div class="ftco-blocks-cover-1">
+    <div class="container">
+        <h1>Appeals Detail</h1>
+        <br />
+        <br />
+        <div class="row align-items-center">
+            <div class="row" style="">
+                <div class="col-lg-6" style="padding-right:0px !important; box-shadow: -8px 0px 8px -8px grey; ">
+                    <div class="feature-car-rent-box-1" style="background: white">
+                        <ul class="list-unstyled">
+                            <li>
+                                {{#if appeal.ay}}
+                                <span><b>AY{{appeal.ay}} Sem {{appeal.sem}} Round {{appeal.round}}</b></span>
+                                {{else}}
+
+                                {{/if}}
+                            </li>
+                            <li>
+                                {{#if appeal.nusnetid}}
+                                <span><b>NusnetID: </b>{{appeal.nusnetid}}</span>
+                                {{else}}
+                                <span>NusnetID: N/A</span>
+                                {{/if}}
+                            </li>
+                            <li>
+                                {{#if appeal.fname}}
+                                <span><b>Student: </b>{{appeal.fname}} {{appeal.lname}}</span>
+                                {{else}}
+                                <span>Student: N/A</span>
+                                {{/if}}
+                            </li>
+                            <li>
+                                {{#if appeal.faculty}}
+                                <span><b>Faculty:</b> {{appeal.faculty}}</span>
+                                {{else}}
+                                <span>Faculty: N/A</span>
+                                {{/if}}
+                            </li>
+                            <li>
+                                {{#if appeal.status}}
+                                    {{#if isPending}}
+                                    <span><b>Status:</b> <span style="color:blue;"> {{appeal.status}}</span></span>
+                                    {{else}}
+                                        {{#if isApproved}}
+                                        <span><b>Status:</b> <span style="color:green;"> {{appeal.status}}</span></span>
+                                        {{else}}
+                                        <span><b>Status:</b> <span style="color:red;"> {{appeal.status}}</span></span>
+                                        {{/if}}
+                                    {{/if}}
+                                {{else}}
+                                    <span>Status: N/A</span>
+                                {{/if}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-6" style="padding-right:0px !important; box-shadow: 5px 10px grey; ">
+                    <div class="feature-car-rent-box-1" style="background: white">
+                        <ul class="list-unstyled">
+                            <li>
+
+                            </li>
+                            <li>
+                                {{#if appeal.modulecode}}
+                                <span><b>Module Code:</b> {{appeal.modulecode}}</span>
+                                {{else}}
+                                <span>Module Code: N/A</span>
+                                {{/if}}
+                            </li>
+                            <li>
+                                {{#if appeal.modulename}}
+                                <span><b>Module Name:</b> {{appeal.modulename}}</span>
+                                {{else}}
+                                <span>Module Name: N/A</span>
+                                {{/if}}
+                            </li>
+                            <li>
+                                {{#if appeal.course}}
+                                <span><b>Course:</b> {{appeal.course}}</span>
+                                {{else}}
+                                <span>Course: N/A</span>
+                                {{/if}}
+                            </li>
+                            <li>
+                                {{#if appeal.iscore}}
+                                <span><b>Core Module:</b> Yes </span>
+                                {{else}}
+                                <span><b>Core Module:</b> No </span>
+                                {{/if}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12" style="padding-right:0px !important">
+                <div class="feature-car-rent-box-1" style="height:auto;">
+                    <ul class="list-unstyled" style="font-size: 20px;">
+                        <li><b>Details:</b>
+                            <br />
+                            {{#if appeal.details}}
+                            <span>{{appeal.details}}</span>
+                            {{else}}
+                            <span>N/A</span>
+                            {{/if}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            {{#if isPending}}
+            <div class="col-lg-3">
+                <form method="POST"
+                    action="/appeals/approveAppeal/{{appeal.modulecode}}/{{appeal.nusnetid}}/{{appeal.ay}}/{{appeal.sem}}/{{appeal.round}}">
+                    <input type="submit" class="btn btn-block btn-success text-white py-3 px-1" value="Approve">
+                </form>
+            </div>
+            <div class="col-lg-3">
+                <form method="POST"
+                    action="/appeals/rejectAppeal/{{appeal.modulecode}}/{{appeal.nusnetid}}/{{appeal.ay}}/{{appeal.sem}}/{{appeal.round}}">
+                    <input type="submit" class="btn btn-block btn-danger text-white py-3 px-1" value="Reject">
+                </form>
+            </div>
+            {{/if}}
+        </div>
+
+    </div>
+
+</div>

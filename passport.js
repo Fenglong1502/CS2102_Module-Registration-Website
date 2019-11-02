@@ -38,32 +38,41 @@ module.exports = function (passport) {
 
 function findUser(nusnetid, callback) {
     const sql = 'SELECT *, (SELECT true FROM student s WHERE s.nusnetid = u.nusnetid) AS student, (SELECT true FROM admin a WHERE a.nusnetid = u.nusnetid) AS admin FROM users u WHERE LOWER(nusnetid) = $1'
+    const sql2 = 'select * from period order by ay desc, sem desc, round desc';
     const params = [nusnetid.toLowerCase()];
-    pool.query(sql, params, (error, result) => {
+
+    pool.query(sql2, (error, result2) => {
         if (error) {
             console.log('err: ', error);
-            return callback(null);
-        }
-
-        if (result.rows.length == 0) {
-            console.error("User does not exist");
-            return callback(null);
-        }
-        else if (result.rows.length == 1) {
-            return callback(null, {
-                nusnetid: result.rows[0].nusnetid,
-                hashedPassword: result.rows[0].password,
-                fname: result.rows[0].fname,
-                lname: result.rows[0].lname,
-                isStudent:  result.rows[0].student,
-                isAdmin:  result.rows[0].admin,
-                ay: "19/20",
-                sem: 1,
-                round: 1
-            })
         } else {
-            console.error("More than one user");
-            return callback(null);
+
+            pool.query(sql, params, (error, result) => {
+                if (error) {
+                    console.log('err: ', error);
+                    return callback(null);
+                }
+
+                if (result.rows.length == 0) {
+                    console.error("User does not exist");
+                    return callback(null);
+                }
+                else if (result.rows.length == 1) {
+                    return callback(null, {
+                        nusnetid: result.rows[0].nusnetid,
+                        hashedPassword: result.rows[0].password,
+                        fname: result.rows[0].fname,
+                        lname: result.rows[0].lname,
+                        isStudent: result.rows[0].student,
+                        isAdmin: result.rows[0].admin,
+                        ay: result2.rows[0].ay,
+                        sem: result2.rows[0].sem,
+                        round: result2.rows[0].round
+                    })
+                } else {
+                    console.error("More than one user");
+                    return callback(null);
+                }
+            });
         }
     });
 }
