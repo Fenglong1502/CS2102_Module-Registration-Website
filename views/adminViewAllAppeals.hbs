@@ -31,8 +31,13 @@
                             <td>{{this.modulecode}}</td>
                             <td>{{this.type}}</td>
                             <td>{{this.status}}</td>
-                            <td><input type="submit" class="btn btn-block btn-primary text-white py-1 px-1 mt-1 mb-1"
-                                    value="View" /></td>
+                            <td>
+                                <button type="submit">
+                                    <span class="fa fa-search py-1 px-1 mb-2"></span>
+                                </button>
+                                {{!-- <input type="submit" class="btn btn-block btn-primary text-white py-1 px-1 mt-1 mb-1"
+                                    value="View" /> --}}
+                            </td>
                         </form>
                     </tr>
                     {{/each}}
@@ -41,5 +46,3 @@
         </div>
     </div>
 </div>
-
-
