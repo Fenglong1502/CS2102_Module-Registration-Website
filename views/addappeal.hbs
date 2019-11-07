@@ -1,3 +1,10 @@
+<div class="container-fluid">
+  <div class="form-group row mb-3 mt-3">
+    <h1> Make a Appeal </h1>
+  </div>
+</div>
+
+
 <div class="row">
   <div class="col-lg-8 mb-5">
     <form action="/appeals/addAppeal" method="POST">
@@ -5,7 +12,7 @@
       <div class="form-group row">
         <div class="col-md-5 mr-auto">
           <label for="cf-1">Module Code:</label>
-          <input name="moduleCode" id="cf-1" placeholder="Enter Module Code Here" class="form-control" />
+          <input name="moduleCode" id="cf-1" placeholder="Enter Module Code Here" class="form-control" required=true />
         </div>
       </div>
 
@@ -13,7 +20,7 @@
         <div class="col-md-3 mr-auto">
           <p>
             <label>Appeal Type:</label>
-            <select name="type">
+            <select name="type" class="form-control">
               <option value="Max Workload Waiver">Max Workload Waiver</option>
               <option value="Module Appeal">Module Appeal</option>
               <option value="Others">Others</option>
@@ -26,7 +33,7 @@
         <div class="col-md-12">
           <label>Appeal Details:</label>
           <textarea name="detail" id="" class="form-control" placeholder="Add Appeal Details (Max. Limit 254 chars)"
-            cols="30" rows="10"></textarea>
+            cols="30" rows="10" required="true"></textarea>
         </div>
       </div>
 

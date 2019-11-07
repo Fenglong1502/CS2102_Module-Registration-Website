@@ -1,27 +1,45 @@
-<table style="width:100%">
-    <tr>
-        <th>Acad. Year</th>
-        <th>Semester</th>
-        <th>Round</th>
-        <th>Nusnet ID</th>
-        <th>Module Code</th>
-        <th>Appeal Type</th>
-        <th>Status</th>
-        <th></th>
+<div class="form-group row mb-5 mt-3">
+    <h1> My Appeals </h1>
+</div>
 
-    </tr>
-    {{# each appeals}}
-    <tr>
-        <form method="POST" action="/appeals/viewAppealDetails/{{this.modulecode}}/{{this.nusnetid}}/{{this.ay}}/{{this.sem}}/{{this.round}}">
-            <td>{{this.ay}}</td>
-            <td>{{this.sem}}</td>
-            <td>{{this.round}}</td>
-            <td>{{this.nusnetid}}</td>
-            <td>{{this.modulecode}}</td>
-            <td>{{this.type}}</td>
-            <td>{{this.status}}</td>
-            <td><input type="submit" class="btn btn-block btn-primary text-white py-1 px-1 mb-2" value="View" /></td>
-        </form>
-    </tr>
-    {{/ each}}
-</table>
+<div class="container-fluid">
+    <div class="row align-items-center">
+        <div class="col-lg-12" style="padding-left:0px !important">
+
+            <div class=row>
+                <table style="width:100%; border: 1px solid #656565; border-radius: 25px; ">
+                    <tr
+                        style=" background-color: #563d7c; color:white; margin-left: 5px; font-size: 130%; margin-right:5px; border-radius: 25px; text-align:center; height:50px">
+                        <th>Acad. Year</th>
+                        <th>Semester</th>
+                        <th>Round</th>
+                        <th>Nusnet ID</th>
+                        <th>Module Code</th>
+                        <th>Appeal Type</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+
+                    {{#each appeals}}
+                    <tr style="margin-left: 5px; font-size: large; margin-right:5px; text-align:center;  height: 40px;">
+                        <form method="POST"
+                            action="/appeals/viewAppealDetails/{{this.modulecode}}/{{this.nusnetid}}/{{this.ay}}/{{this.sem}}/{{this.round}}">
+                            <td>{{this.ay}}</td>
+                            <td>{{this.sem}}</td>
+                            <td>{{this.round}}</td>
+                            <td>{{this.nusnetid}}</td>
+                            <td>{{this.modulecode}}</td>
+                            <td>{{this.type}}</td>
+                            <td>{{this.status}}</td>
+                            <td><input type="submit" class="btn btn-block btn-primary text-white py-1 px-1 mt-1 mb-1"
+                                    value="View" /></td>
+                        </form>
+                    </tr>
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+

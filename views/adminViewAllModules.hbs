@@ -1,3 +1,7 @@
+<div class="form-group row mb-3 mt-3">
+    <h1> Modules </h1>
+</div>
+
 <div class="form-group row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
@@ -20,51 +24,71 @@
     </p>
 </div>
 {{/if}}
-<table style="width:100%">
-    <tr>
-        <th>Faculty</th>
-        <th>Deparment</th>
-        <th>Module Code</th>
-        <th>Module Name</th>
-        <th>Semester Offered</th>
-        <th></th>
-    </tr>
-    {{#each modules}}
-    <tr>
 
-        <td>{{this.faculty}}</td>
-        <td>{{this.department}}</td>
-        <td>{{this.modulecode}}</td>
-        <td>{{this.modulename}}</td>
-        {{#if this.sem}}
-        <td>{{this.sem}}</td>
-        {{else}}
-        <td>1 & 2</td>
-        {{/if}}
-        <td>
-            <form method="POST" action="/modules/viewModuleDetail/{{this.modulecode}}/{{this.modulename}}">
-                <button type="submit">
-                    <span class="fa fa-search py-1 px-1 mb-3"></span>
-                </button>
-                {{!-- <input type="submit" class="btn btn-block btn-primary text-white py-1 px-1 mb-2" value="View" /> --}}
-            </form>
-        </td>
-        <td>
-            <form method="GET" action="/modules/editModule/{{this.modulecode}}">
-                <button type="submit">
-                    <span class="fa fa-edit py-1 px-1 mb-3"></span>
-                </button>
-            </form>
-        </td>
-        <td>
-            <form method="GET" onsubmit="return confirm('Are you sure to delete {{this.modulecode}} {{this.modulename}}?')" action="/modules/deleteModule/{{this.modulecode}}">
-                <button type="submit">
-                    <span class="fa fa-trash-o py-1 px-1 mb-3"></span>
-                </button>
-            </form>
-        </td>
 
-    </tr>
 
-    {{/each}}
-</table>
+
+
+
+<div class="container-fluid">
+    <div class="row align-items-center">
+        <div class="col-lg-12" style="padding-left:0px !important">
+
+            <div class=row>
+                <table style="width:100%; border: 1px solid #656565; border-radius: 25px; ">
+                    <tr
+                        style=" background-color: #563d7c; color:white; margin-left: 5px; font-size: 130%; margin-right:5px; border-radius: 25px; text-align:center; height:50px">
+                        <th>Faculty</th>
+                        <th>Deparment</th>
+                        <th>Module Code</th>
+                        <th>Module Name</th>
+                        <th>Semester Offered</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+
+                    {{#each modules}}
+                    <tr style="margin-left: 5px; font-size: large; margin-right:5px;text-align:center; height: 40px;">
+                        <td>{{this.faculty}}</td>
+                        <td>{{this.department}}</td>
+                        <td>{{this.modulecode}}</td>
+                        <td>{{this.modulename}}</td>
+                        {{#if this.sem}}
+                        <td>{{this.sem}}</td>
+                        {{else}}
+                        <td>1 & 2</td>
+                        {{/if}}
+                        <td>
+                            <form method="POST"
+                                action="/modules/viewModuleDetail/{{this.modulecode}}/{{this.modulename}}">
+                                <button type="submit">
+                                    <span class="fa fa-search py-1 px-1 mb-3"></span>
+                                </button>
+                                {{!-- <input type="submit" class="btn btn-block btn-primary text-white py-1 px-1 mb-2" value="View" /> --}}
+                            </form>
+                        </td>
+                        <td>
+                            <form method="GET" action="/modules/editModule/{{this.modulecode}}">
+                                <button type="submit">
+                                    <span class="fa fa-edit py-1 px-1 mb-3"></span>
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <form method="GET"
+                                onsubmit="return confirm('Are you sure to delete {{this.modulecode}} {{this.modulename}}?')"
+                                action="/modules/deleteModule/{{this.modulecode}}">
+                                <button type="submit">
+                                    <span class="fa fa-trash-o py-1 px-1 mb-3"></span>
+                                </button>
+                            </form>
+                        </td>
+
+                    </tr>
+                    {{/each}}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,20 +1,38 @@
-<table style="width:100%">
-  <tr>
-    <th>Acad. Year</th>
-    <th>Semester</th>
-    <th>Round</th>
-    <th>Module Code</th>
-    <th>Appeal Type</th>
-    <th>Status</th>
-  </tr>
-  {{# each appeals}}
-  <tr>
-    <td>{{modulecode}}</td>
-    <td>{{ay}}</td>
-    <td>{{sem}}</td>
-    <td>{{round}}</td>
-    <td>{{type}}</td>
-    <td>{{status}}</td>
-  </tr>
-  {{/ each}}
-</table>
+
+<div class="form-group row mb-5 mt-3">
+    <h1> My Appeals </h1>
+</div>
+
+<div class="container-fluid">
+  <div class="row align-items-center">
+    <div class="col-lg-12" style="padding-left:0px !important">
+
+      <div class=row>
+        <table style="width:100%; border: 1px solid #656565; border-radius: 25px; ">
+          <tr
+            style=" background-color: #563d7c; color:white; margin-left: 5px; font-size: 130%; margin-right:5px; border-radius: 25px; text-align:center; height:50px">
+            <th>Acad. Year</th>
+            <th>Semester</th>
+            <th>Round</th>
+            <th>Module Code</th>
+            <th>Appeal Type</th>
+            <th>Status</th>
+          </tr>
+
+          {{#each appeals}}
+          <tr style="margin-left: 5px; font-size: large; margin-right:5px;text-align:center; height: 40px;">
+            <td>{{modulecode}}</td>
+            <td>{{ay}}</td>
+            <td>{{sem}}</td>
+            <td>{{round}}</td>
+            <td>{{type}}</td>
+            <td>{{status}}</td>
+          </tr>
+          {{/each}}
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+

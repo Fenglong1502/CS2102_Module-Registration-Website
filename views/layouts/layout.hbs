@@ -22,6 +22,7 @@
   <link rel="stylesheet" type="text/css" href="./vendor/perfect-scrollbar/perfect-scrollbar.css">
   <link rel="stylesheet" type="text/css" href="/stylesheets/util.css">
   <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+  <link rel="stylesheet" type="text/css" href="/stylesheets/templatemo-style.css">
 </head>
 
 <body>
@@ -42,7 +43,7 @@
 
 
   <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
-    <a class="navbar-brand mr-0 mr-md-2" href="localhost:3000/" aria-label="Bootstrap">
+    <a class="navbar-brand mr-0 mr-md-2" href="/index" aria-label="Bootstrap">
       <img src="/images/logo2.png" width="280" height="70" />
     </a>
     {{#if user}}
@@ -51,7 +52,7 @@
         {{#if user.isStudent }}
         <a class="mb-3 mb-md-0 ml-md-3" href="/users/viewStudentInformation">Welcome, {{user.fname}} {{user.lname}}</a>
         {{else}}
-        <a class="mb-3 mb-md-0 ml-md-3" href="/users/viewAdminInformation">Welcome, (Admin) {{user.fname}} {{user.lname}}</a>
+        <a class="mb-3 mb-md-0 ml-md-3" href="#">Welcome, (Admin) {{user.fname}} {{user.lname}}</a>
         {{/if}}
       </li>
     </ul>

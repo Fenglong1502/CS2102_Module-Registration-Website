@@ -85,13 +85,20 @@
     </p>
 </div>
 {{/if}}
+{{#if message}}
+<div class="form-group row">
+    <div class="error">
+        <span style="color: red">{{message}}</span>
+    </div>
+</div>
 
+{{/if}}
 <div class="form-group row">
     {{#each modules}}
     <div class="blog-container" style="border: solid 1px black">
         <div class="blog-body">
             <form method="POST" action="/modules/registerModule/{{this.modulecode}}">
-                <div class="row" style="height: 150px;">
+                <div class="row" style="height: 180px;">
                     <div class="col-md-10">
                         <div class="blog-title" style="margin-top: 15px;">
                             <h2>{{this.modulecode}} - {{this.modulename}} </h2>

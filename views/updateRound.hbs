@@ -14,7 +14,7 @@
                             <b>Next Round:</b> AY{{nextyr}} Sem:{{nextsem}} Round: {{nextround}}
                         </li>
                         <li>
-                            <form method="POST" onsubmit="return confirm('Confirm Proceed?')" action="/users/proceedNextRound/{{nextyr}}/{{nextsem}}/{{nextround}}">
+                            <form method="POST" onsubmit="return confirm('Confirm Proceed?')" action="/users/proceedNextRound/{{ayround.ay}}/{{ayround.sem}}/{{ayround.round}}">
                                 <input type="submit" class="btn btn-block btn-success text-white py-3 px-1" value="Proceed">
                             </form>
                         </li>

@@ -1,14 +1,322 @@
-<h1>{{ title }}</h1>
-<h2> Testing Message </h2>
-<p>Welcome to {{title}} </p>
+<!doctype html>
+<html lang="en">
 
-{{# if condition}}
-{{# each anyArray as |val key|}}
-    <p> {{val}} </p>
-{{/ each}}
+<head>
+    <title>Login V2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/login/vendor/bootstrap/css/bootstrap.min.css">
+    {{!-- <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css"> --}}
+    <link rel="stylesheet" type="text/css" href="/login/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="/login/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="/login/vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="/login/vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="/login/vendor/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" type="text/css" href="/login/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/login/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/templatemo-style.css">
+    <link rel="stylesheet" href="/stylesheets/docs.min.css">
+    <link rel="stylesheet" href="/stylesheets/AdminLTE.min.css">
 
-{{else}}
-<p> This is a false statement</p>
 
-{{/ if}}
+    <link rel="stylesheet" type="text/css" href="./vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="./vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="./vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/util.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+</head>
 
+<body style="background-color: #f2f2f2;" data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+    <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
+        <a class="navbar-brand mr-0 mr-md-2" href="/index" aria-label="Bootstrap">
+            <img src="/images/logo2.png" width="280" height="70" />
+        </a>
+        {{#if user}}
+        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+            <li class="nav-item" style="color: white">
+                {{#if user.isStudent }}
+                <a class="mb-3 mb-md-0 ml-md-3" href="/users/viewStudentInformation">Welcome, {{user.fname}}
+                    {{user.lname}}</a>
+                {{else}}
+                <a class="mb-3 mb-md-0 ml-md-3" href="#">Welcome, (Admin) {{user.fname}} {{user.lname}}</a>
+                {{/if}}
+            </li>
+        </ul>
+
+        <a class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="/users/logout">Logout</a>
+
+        {{else}}
+        <a class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="/users/login">Login</a>
+        {{/if}}
+    </header>
+
+    <div class="container mt-5">
+
+        <div>
+            <h1 class="mb-5">
+                {{#if user.isStudent }}
+                Welcome, {{user.fname}} {{user.lname}}
+                {{else}}
+                Welcome, (Admin) {{user.fname}} {{user.lname}}
+                {{/if}}
+            </h1>
+
+            {{#if user.isAdmin }}
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row mb-5">
+
+                            <div class="col-4">
+                                <a href="/modules/createModule" style="text-align: center;">
+                                    <div class="image-icon"><img src="/images/create.png" width="225px"
+                                            style="border-radius:50%;" height="225px">
+                                    </div>
+                                    <h4>Create Module</h4>
+                                </a>
+                            </div>
+                            <div class="col-4">
+                                <a href="/modules/adminViewAllModules" style="text-align: center;">
+                                    <div class="image-icon"><img width="225px" height="225px" style="border-radius:50%;"
+                                            src="/images/modules.jpg">
+                                        <h4>All Modules</h4>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-4">
+                                <a href="/users/viewAllStudents" style="text-align: center;">
+                                    <div class="image-icon"><img src="/images/student.png" width="225px"
+                                            style="border-radius:50%;" height="225px">
+                                    </div>
+                                    <h4>Students</h4>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <a href="/appeals/adminViewAllAppeals" style="text-align: center;">
+                                    <div class="image-icon"><img src="/images/appeal.jpg" width="225px"
+                                            style="border-radius:50%;" height="225px">
+                                    </div>
+                                    <h4>Appeals</h4>
+                                </a>
+                            </div>
+                            <div class="col-4">
+                                <a href="/users/updateRound" style="text-align: center;">
+                                    <div class="image-icon"><img src="/images/round.jpg" width="225px"
+                                            style="border-radius:50%;" height="225px">
+                                    </div>
+                                    <h4>Update Rounds</h4>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+
+
+            {{#if user.isStudent }}
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-4">
+                                <a href="/modules/registerNewModule" style="text-align: center;">
+                                    <div class="image-icon"><img src="/images/modules.jpg" width="225px"
+                                            style="border-radius:50%;" height="225px">
+                                    </div>
+                                    <h4>Modules</h4>
+                                </a>
+                            </div>
+                            <div class="col-4">
+                                <a href="/appeals/viewAllAppeals" style="text-align: center;">
+                                    <div class="image-icon"><img src="/images/appeal.jpg" width="225px"
+                                            style="border-radius:50%;" height="225px">
+                                    </div>
+                                    <h4>Appeals</h4>
+                                </a>
+                            </div>
+                            <div class="col-4">
+                                <a href="/users/viewStudentInformation" style="text-align: center;">
+                                    <div class="image-icon"><img src="/images/user.png" width="225px"
+                                            style="border-radius:50%;" height="225px"></div>
+                                    <h4>Student Information</h4>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{/if}}
+
+
+        </div>
+    </div>
+    <script src="/login/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="/login/vendor/animsition/js/animsition.min.js"></script>
+    <script src="/login/vendor/bootstrap/js/popper.js"></script>
+    <script src="/login/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/login/vendor/select2/select2.min.js"></script>
+    <script src="/login/vendor/daterangepicker/moment.min.js"></script>
+    <script src="/login/vendor/daterangepicker/daterangepicker.js"></script>
+    <script src="/login/vendor/countdowntime/countdowntime.js"></script>
+    <script src="/login/js/main.js"></script>
+</body>
+
+</html>
+
+{{!-- 
+
+<!doctype html>
+<html lang="en">
+
+<head style="height: 100%">
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/docs.min.css">
+    <link rel="stylesheet" href="/stylesheets/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="/stylesheets/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/stylesheets/owl.carousel.min.css">
+    <link rel="stylesheet" href="/stylesheets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/stylesheets/AdminLTE.min.css">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stylesheets/aos.css">
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+
+    <link rel="stylesheet" type="text/css" href="./vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="./vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="./vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/util.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/templatemo-style.css">
+</head>
+
+<body>
+
+
+
+    <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar">
+        <a class="navbar-brand mr-0 mr-md-2" href="/index" aria-label="Bootstrap">
+            <img src="/images/logo2.png" width="280" height="70" />
+        </a>
+        {{#if user}}
+        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+            <li class="nav-item" style="color: white">
+                {{#if user.isStudent }}
+                <a class="mb-3 mb-md-0 ml-md-3" href="/users/viewStudentInformation">Welcome, {{user.fname}}
+                    {{user.lname}}</a>
+                {{else}}
+                <a class="mb-3 mb-md-0 ml-md-3" href="#">Welcome, (Admin) {{user.fname}} {{user.lname}}</a>
+                {{/if}}
+            </li>
+        </ul>
+
+        <a class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="/users/logout">Logout</a>
+
+        {{else}}
+        <a class="btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="/users/login">Login</a>
+        {{/if}}
+    </header>
+
+    <div data-spy="scroll" data-target=".site-navbar-target" data-offset="300"
+        style="background-image: url('/images/indexbg.jpg');">
+
+        <h1 class="mb-5">
+            {{#if user.isStudent }}
+            Welcome, {{user.fname}} {{user.lname}}
+            {{else}}
+            Welcome, (Admin) {{user.fname}} {{user.lname}}
+            {{/if}}
+        </h1>
+
+
+        {{#if user.isAdmin }}
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-4">
+                            <a href="/modules/adminViewAllModules">
+                                <div class="image-icon"><img width="225px" height="225px" src="/images/modules.jpg">
+                                </div>
+                                <h6>Modules</h6>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="/appeals/adminViewAllAppeals">
+                                <div class="image-icon"><img src="/images/appeal.jpg" width="225px" height="225px">
+                                </div>
+                                <h6>Appeals</h6>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="/users/viewAllStudents">
+                                <div class="image-icon"><img src="/images/student.png" width="225px" height="225px">
+                                </div>
+                                <h6>Students</h6>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+
+
+        {{#if user.isStudent }}
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-4">
+                            <a href="/modules/registerNewModule">
+                                <div class="image-icon"><img src="/images/modules.jpg" width="225px" height="225px">
+                                </div>
+                                <h6>Modules</h6>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="/appeals/viewAllAppeals">
+                                <div class="image-icon"><img src="/images/appeal.jpg" width="225px" height="225px">
+                                </div>
+                                <h6>Appeals</h6>
+                            </a>
+                        </div>
+                        <div class="col-4">
+                            <a href="/users/viewStudentInformation">
+                                <div class="image-icon"><img src="/images/user.png" width="225px" height="225px"></div>
+                                <h6>Student Information</h6>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{/if}}
+    </div>
+
+
+    <script src="./js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.sticky.js"></script>
+    <script src="js/jquery.waypoints.min.js"></script>
+    <script src="js/jquery.animateNumber.min.js"></script>
+    <script src="js/jquery.fancybox.min.js"></script>
+    <script src="js/jquery.easing.1.3.js"></script>
+    <script src="js/bootstrap-datepicker.min.js"></script>
+    <script src="js/aos.js"></script>
+    <script src="js/adminlte.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="./vendor/select2/select2.min.js"></script>
+</body>
+
+</html> --}}

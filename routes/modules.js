@@ -9,7 +9,7 @@ router.get('/viewModuleDetail', function (req, res) {
 });
 
 router.get('/registerNewModule', function (req, res) {
-    const sql = 'select m.* from module m where m.moduleCode not in (SELECT moduleCode FROM RegisteredModule r WHERE r.nusnetid = $1) AND (m.sem is null or m.sem=$2)';
+    const sql = "select m.* from module m where m.moduleCode not in (SELECT moduleCode FROM RegisteredModule r WHERE r.nusnetid = $1) AND (m.sem is null or m.sem=$2) AND  m.moduleCode not in (SELECT modulecode FROM enrolledModule Where nusnetid = $1 AND grade <> 'F' AND grade <> 'U') ORDER BY m.modulecode asc";
     const params = [req.user.nusnetid, req.user.sem];
 
     pool.query(sql, params, (error, result) => {
@@ -24,11 +24,13 @@ router.get('/registerNewModule', function (req, res) {
     });
 });
 
+
+
 router.get('/viewEnrolledModules', ensureAuthenticated, function (req, res) {
 
-    const sql = 'Select * from enrolledModule WHERE nusnetid = $1 AND ay = $2 AND sem= $3';
+    const sql = 'Select e.*, m.modulename, m.credit from enrolledModule e inner join module m on m.modulecode = e.modulecode WHERE e.nusnetid = $1 AND e.ay = $2 AND e.sem= $3';
     var sql2 = 'SELECT distinct ay, sem FROM Period ORDER BY ay desc, sem desc limit ((SELECT year from Student WHERE nusnetid = $1) * 2)';
-    const sql3 = 'Select sem From period order by ay desc, sem desc limit 1';
+    const sql3 = 'Select ay, sem From period order by ay desc, sem desc limit 1';
     const params = [req.user.nusnetid, req.user.ay, req.user.sem];
     const params2 = [req.user.nusnetid];
 
@@ -50,7 +52,9 @@ router.get('/viewEnrolledModules', ensureAuthenticated, function (req, res) {
                         } else {
                             res.render('viewAllEnrolledModules', {
                                 enrolledModules: result.rows,
-                                semesters: result2.rows
+                                semesters: result2.rows,
+                                year: result3.rows[0].ay,
+                                sem: result3.rows[0].sem
                             })
                         }
                     });
@@ -65,7 +69,7 @@ router.post('/selectEnrolledModulesAY', ensureAuthenticated, function (req, res)
     var year = yearSem.substring(0, 5);
     var sem = yearSem.substring(5);
 
-    const sql = 'Select * from enrolledModule WHERE nusnetid = $1 AND ay = $2 AND sem= $3';
+    const sql = 'Select e.*, m.modulename, m.credit from enrolledModule e inner join module m on m.modulecode = e.modulecode WHERE e.nusnetid = $1 AND e.ay = $2 AND e.sem= $3';
     var sql2 = 'SELECT distinct ay, sem FROM Period ORDER BY ay desc, sem desc limit ((SELECT year from Student WHERE nusnetid = $1) * 2);';
     const sql3 = 'Select sem From period order by ay desc, sem desc limit 1';
     const params = [req.user.nusnetid, year, sem];
@@ -91,6 +95,8 @@ router.post('/selectEnrolledModulesAY', ensureAuthenticated, function (req, res)
                             res.render('viewAllEnrolledModules', {
                                 enrolledModules: result.rows,
                                 semesters: result2.rows,
+                                year: year,
+                                sem: sem,
                                 user: req.user
                             })
                         }
@@ -142,25 +148,95 @@ router.post('/searchModulesAdmin', ensureAuthenticated, function (req, res) {
 
 router.post('/registerModule/:moduleCode', ensureAuthenticated, function (req, res) {
     const sql = "INSERT INTO RegisteredModule VALUES ($1, $2, $3, $4, $5)";
+    const sql2 = "Select preReqModuleCode from Prerequisite where moduleCode = $1";
+    const sql3 = "select modulecode from enrolledModule Where nusnetid = $1";
+
     var ay = req.user.ay;
     var sem = req.user.sem;
     var round = req.user.round;
     var nusnetid = req.user.nusnetid;
-    var moduleCode = req.params.moduleCode
+    var moduleCode = req.params.moduleCode;
     const params = [ay, sem, round, nusnetid, moduleCode];
-    pool.query(sql, params, (error, result) => {
-        if (error) {
-            console.log('err: ', error);
-        } else {
-            res.redirect('/modules/registerNewModule');
+    const params2 = [moduleCode];
+    const params3 = [nusnetid];
+
+
+    pool.query(sql2, params2).then((result2) => {
+        var prereqList = result2.rows;
+        if (prereqList.length > 0) {
+            pool.query(sql3, params3).then((result3) => {
+                var moduleDone = result3.rows;
+                var i;
+                var check = 0;
+                var prereqMessage = JSON.stringify(prereqList[0].prereqmodulecode);
+                
+                console.log(prereqList);
+                console.log(prereqList[0]);
+                console.log(prereqMessage);
+                for (i = 0; i < prereqList.length; i++) {
+                    var j;
+                    if (i > 0) {
+                        prereqMessage += (", " + JSON.stringify(prereqList[i].prereqmodulecode));
+                        console.log(prereqMessage);
+                    }
+
+                    for (j = 0; j < moduleDone.length; j++) {
+                        if (prereqList[i].prereqmodulecode == moduleDone[j].modulecode) {
+                            check++;
+                        }
+                    }
+                }
+                if (check == prereqList.length) {
+                    pool.query(sql, params, (error, result) => {
+                        if (error) {
+                            console.log('err: ', error);
+                        } else {
+                            res.redirect('/modules/registerNewModule');
+                        }
+                    });
+                }
+                else {
+                    const sql4 = "select m.* from module m where m.moduleCode not in (SELECT moduleCode FROM RegisteredModule r WHERE r.nusnetid = $1) AND (m.sem is null or m.sem=$2) AND  m.moduleCode not in (SELECT modulecode FROM enrolledModule Where nusnetid = $1 AND grade <> 'F' AND grade <> 'U') ORDER BY m.modulecode asc";
+                    const params4 = [req.user.nusnetid, req.user.sem];
+
+                    pool.query(sql4, params4, (error, result) => {
+
+                        if (error) {
+                            console.log('err: ', error);
+                        } else {
+                            res.render('registerNewModule', {
+                                modules: result.rows,
+                                message: "Please ensure that you have completed " + prereqMessage + " before applying for the module '" + moduleCode + "'!",
+                                user: req.user
+                            })
+                        }
+                    });
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
         }
-    });
+        else {
+            pool.query(sql, params, (error, result) => {
+                if (error) {
+                    console.log('err: ', error);
+                } else {
+                    res.redirect('/modules/registerNewModule');
+                }
+            });
+        }
+    })
+        .catch((error) => {
+            console.log(error);
+        });
+
+
 });
 
 router.post('/removeModule/:moduleCode', ensureAuthenticated, function (req, res) {
     const sql = "DELETE FROM registeredModule WHERE nusnetid = $1 AND moduleCode = $2;";
     var nusnetid = req.user.nusnetid;
-    var moduleCode = req.params.moduleCode
+    var moduleCode = req.params.moduleCode;
     const params = [nusnetid, moduleCode];
     pool.query(sql, params, (error, result) => {
         if (error) {
@@ -575,7 +651,7 @@ router.post('/updateModule/:oldModCode', ensureAuthenticated, function (req, res
         if (error) {
             console.log('err: ', error);
         } else {
-            res.redirect('/modules/editModule/' + modCode);
+            res.redirect('/modules/adminViewAllModules');
         }
     });
 });
@@ -605,10 +681,10 @@ router.get('/createModule', ensureAuthenticated, function (req, res) {
 
 
 router.get('/viewRegisteredModule', ensureAuthenticated, function (req, res) {
-    const sql = 'SELECT r.nusnetid, r.ay, r.sem, r.round, m.* FROM registeredModule r INNER JOIN Module m ON r.moduleCode = m.moduleCode WHERE r.nusnetid = $1 AND r.ay = $2 AND r.sem = $3';
+    const sql = 'SELECT r.nusnetid, r.ay, r.sem, r.round, m.* FROM registeredModule r INNER JOIN Module m ON r.moduleCode = m.moduleCode WHERE r.nusnetid = $1 AND r.ay = $2 AND r.sem = $3 AND r.round =$4';
     const sql2 = 'select sum(credit) as sum from enrolledmodule e inner join module m on m.modulecode = e.modulecode where e.nusnetid = $1 AND e.ay=$2 AND e.sem =$3';
-    const sql3 = 'select sum(credit) as sum from registeredModule r inner join module m on m.modulecode = r.modulecode where r.nusnetid = $1 AND r.ay=$2 AND r.sem =$3';
-    const params = [req.user.nusnetid, req.user.ay, req.user.sem];
+    const sql3 = 'select sum(credit) as sum from registeredModule r inner join module m on m.modulecode = r.modulecode where r.nusnetid = $1 AND r.ay=$2 AND r.sem =$3 AND r.round = $4';
+    const params = [req.user.nusnetid, req.user.ay, req.user.sem, req.user.round];
     const params2 = [req.user.nusnetid, req.user.ay, req.user.sem];
 
     var enrolCredit;
@@ -622,7 +698,7 @@ router.get('/viewRegisteredModule', ensureAuthenticated, function (req, res) {
                 if (error) {
                     console.log('err: ', error);
                 } else {
-                    pool.query(sql3, params2, (error, result3) => {
+                    pool.query(sql3, params, (error, result3) => {
                         if (error) {
                             console.log('err: ', error);
                         } else {
@@ -641,7 +717,11 @@ router.get('/viewRegisteredModule', ensureAuthenticated, function (req, res) {
 
                             res.render('viewRegisteredModule', {
                                 registeredModules: result.rows,
-                                totalcredit: enrolCredit + registerCredit
+                                totalcredit: enrolCredit + registerCredit,
+                                enrolCredit: enrolCredit,
+                                registerCredit: registerCredit,
+                                creditLeft: (32 - registerCredit - enrolCredit) ,
+                                round: req.user.round
                             })
                         }
                     });

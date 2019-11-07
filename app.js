@@ -64,16 +64,12 @@ app.get('/', (req, res) => {
 let index = require('./routes/index');
 let users = require('./routes/users');
 let appeals = require('./routes/appeals');
-let majors = require('./routes/majors');
 let modules = require('./routes/modules');
-let registeredModules = require('./routes/registeredModules');
 
 app.use('/index', index);
 app.use('/users', users);
 app.use('/appeals', appeals);
-app.use('/majors', majors);
 app.use('/modules', modules);
-app.use('/registeredModules', registeredModules);
 
 
 // catch 404 and forward to error handler
@@ -87,7 +83,6 @@ function checkAuthenticated(req, res, next) {
   }
   res.redirect('/login');
 }
-
 
 
 // error handler

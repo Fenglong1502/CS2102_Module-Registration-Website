@@ -1,80 +1,79 @@
-<div class="ftco-blocks-cover-1">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-7" style="padding-left:0px !important">
-                <div class="col-lg-12" style="padding-left:0px !important">
-                    <div class="feature-car-rent-box-1" style=" height:600px;  box-shadow: 8px 0px 8px -8px grey;">
-                        <h3 style="text-align:center">My Modules</h3>
-                        <div class=row>
-                            <form method="POST" action="/modules/selectEnrolledModulesAY">
-                                <select name="ay">
-                                    {{#each semesters}}
-                                    <option value="{{this.ay}}{{this.sem}}">AY{{this.ay}} - Sem{{this.sem}}</option>
-                                    {{/each}}
-                                </select>
-                                <input class="btn btn-primary" type="submit" value="Select" />
-                            </form>
-                            </select>
-                        </div>
-                        </br>
-                        <div class=row>
-                            {{#each enrolledModules}}
-                            {{this.modulecode}} - {{this.grade}}
-                            {{/each}}
-                            Testing
-                            <div class="nonloop-block-13 owl-carousel">
-                                <ul class="specs">
-                                    <li>
-                                        <span>Doors</span>
-                                        <span class="spec">4</span>
-                                    </li>
-                                    <li>
-                                        <span>Seats</span>
-                                        <span class="spec">5</span>
-                                    </li>
-                                    <li>
-                                        <span>Transmission</span>
-                                        <span class="spec">Automatic</span>
-                                    </li>
-                                    <li>
-                                        <span>Minium age</span>
-                                        <span class="spec">18 years</span>
-                                    </li>
-                                </ul>
-                                <div class="item-1">
-                                    <div class="item-1-contents">
+<style>
+    .blog-container {
+        background: white;
+        border-color: #563d7c;
+        border-radius: 5px;
+        box-shadow: hsla(0, 0, 0, .2) 0 4px 2px -2px;
+        font-family: "adelle-sans", sans-serif;
+        font-weight: 100;
+        margin: 10px auto;
+        width: 70%;
+    }
 
-                                    </div>
-                                </div>
-                                <div class="item-1">
-                                    <div class="item-1-contents">
-                                        <div class="text-center">
-                                            <h3><a href="#">Range Rover S64 Coupe</a></h3>
-                                            <div class="rent-price"><span>$250/</span>day</div>
-                                        </div>
-                                        <ul class="specs">
-                                            <li>
-                                                <span>Doors</span>
-                                                <span class="spec">4</span>
-                                            </li>
-                                            <li>
-                                                <span>Seats</span>
-                                                <span class="spec">5</span>
-                                            </li>
-                                            <li>
-                                                <span>Transmission</span>
-                                                <span class="spec">Automatic</span>
-                                            </li>
-                                            <li>
-                                                <span>Minium age</span>
-                                                <span class="spec">18 years</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    .blog-body {
+        margin: 0 auto;
+        width: 90%;
+    }
+
+    .blog-title h1 a {
+        color: #333;
+        font-weight: 100;
+    }
+
+    .blog-summary p {
+        color: lighten(#333, 10%);
+    }
+</style>
+
+
+<div class="blog-container" style="border: solid 1px black; height:700px">
+    <div class="blog-body">
+        <div class="row align-items-center">
+            <div class="col-lg-12" style="padding-left:0px !important">
+                <h3 style="text-align:center; margin-top:30px;">My Modules</h3>
+                <h5 style="text-align:center">AY {{year}} - Sem {{sem}}</h5>
+
+
+                <div class="row" style="margin-bottom: 20px;">
+                    <form method="POST" action="/modules/selectEnrolledModulesAY">
+                        <select name="ay"
+                            style="margin-top: 50px; height: calc(1.5em + 0.75rem + 2px); font-size: 1rem; padding-left:10px; padding-right:10px; ">
+                            <option value="{{year}}{{sem}}" hidden="hidden" selected="selected">
+                                AY{{year}} - Sem{{sem}}</option>
+                            {{#each semesters}}
+                            <option value="{{this.ay}}{{this.sem}}">AY{{this.ay}} - Sem{{this.sem}}</option>
+                            {{/each}}
+                        </select>
+                        <input class="btn btn-primary" type="submit" value="Select" />
+                    </form>
+                    </select>
+                </div>
+                </br>
+                <div class=row>
+                    <table style="width:100%; border: 1px solid #656565; border-radius: 25px; ">
+                        <tr
+                            style=" background-color: #563d7c; color:white; margin-left: 5px; margin-right:5px; border-radius: 25px; text-align:center; height:40px;">
+                            <th>Module Code</th>
+                            <th>Module Name</th>
+                            <th>Units</th>
+                            <th>Grade</th>
+                            <th>Status</th>
+                        </tr>
+
+                        {{#each enrolledModules}}
+                        <tr style="margin-left: 5px; margin-right:5px;text-align:center; height:30px;">
+                            <td>{{this.modulecode}}</td>
+                            <td>{{this.modulename}}</td>
+                            <td>{{this.credit}}</td>
+                            {{#if this.grade}}
+                            <td>{{this.grade}}</td>
+                            {{else}}
+                            <td>-</td>
+                            {{/if}}
+                            <td>{{this.status}}</td>
+                        </tr>
+                        {{/each}}
+                    </table>
                 </div>
             </div>
         </div>
