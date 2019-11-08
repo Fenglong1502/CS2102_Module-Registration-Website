@@ -304,9 +304,8 @@ router.get('/login', function (req, res) {
 router.post('/login', function (req, res, next) {
   passport.authenticate('local', {
     successRedirect: '/index',
-    failureRedirect: '/appeals/viewAllAppeals',
+    failureRedirect: '/users/login',
     failureFlash: 'Username/password combination wrong.'
-
   })(req, res, next);
 });
 

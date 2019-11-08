@@ -6,9 +6,12 @@
 
 		<div class="row">
 			<form method="POST" action="/modules/viewModuleDetail/{{modulecode}}/{{modulename}}/1">
-				<select class="form-control" name="ay">
+				<select name="ay"
+					style="margin-top: 50px; height: calc(1.5em + 0.75rem + 2px); font-size: 1rem; padding-left:10px; padding-right:10px; ">
+					<option value="{{ay}}{{sem}}" hidden="hidden" selected="selected">
+						AY {{ay}} - Sem {{sem}}</option>
 					{{#each ayyear}}
-					<option value="{{this.ay}}{{this.sem}}">AY{{this.ay}} - Sem{{this.sem}}</option>
+					<option value="{{this.ay}}{{this.sem}}">AY {{this.ay}} - Sem {{this.sem}}</option>
 					{{/each}}
 				</select>
 				<input class="btn btn-primary" type="submit" value="View" />

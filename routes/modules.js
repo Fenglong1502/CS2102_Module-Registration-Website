@@ -3,12 +3,9 @@ const router = express.Router();
 const ensureAuthenticated = require('../ensureAuthenticated');
 const pool = require('../database');
 
-router.get('/viewModuleDetail', function (req, res) {
 
-    res.render('viewModuleDetail');
-});
 
-router.get('/registerNewModule', function (req, res) {
+router.get('/registerNewModule', ensureAuthenticated, function (req, res) {
     const sql = "select m.* from module m where m.moduleCode not in (SELECT moduleCode FROM RegisteredModule r WHERE r.nusnetid = $1) AND (m.sem is null or m.sem=$2) AND  m.moduleCode not in (SELECT modulecode FROM enrolledModule Where nusnetid = $1 AND grade <> 'F' AND grade <> 'U') ORDER BY m.modulecode asc";
     const params = [req.user.nusnetid, req.user.sem];
 
@@ -19,6 +16,24 @@ router.get('/registerNewModule', function (req, res) {
         } else {
             res.render('registerNewModule', {
                 modules: result.rows,
+            })
+        }
+    });
+});
+
+
+router.get('/registerNewModule/:errorMsg', ensureAuthenticated, function (req, res) {
+    const sql = "select m.* from module m where m.moduleCode not in (SELECT moduleCode FROM RegisteredModule r WHERE r.nusnetid = $1) AND (m.sem is null or m.sem=$2) AND  m.moduleCode not in (SELECT modulecode FROM enrolledModule Where nusnetid = $1 AND grade <> 'F' AND grade <> 'U') ORDER BY m.modulecode asc";
+    const params = [req.user.nusnetid, req.user.sem];
+
+    pool.query(sql, params, (error, result) => {
+
+        if (error) {
+            console.log('err: ', error);
+        } else {
+            res.render('registerNewModule', {
+                modules: result.rows,
+                message: req.params.errorMsg
             })
         }
     });
@@ -110,9 +125,9 @@ router.post('/selectEnrolledModulesAY', ensureAuthenticated, function (req, res)
 
 
 router.post('/searchModules', ensureAuthenticated, function (req, res) {
-    const sql = "SELECT m.* FROM module m WHERE m.moduleCode NOT IN (SELECT moduleCode FROM RegisteredModule r WHERE r.nusnetid = $1) AND ((LOWER(m.modulecode) LIKE '%' || $2 ||'%') OR (LOWER(m.moduleName) LIKE '%' || $2 || '%')) AND (m.sem is null or m.sem=$3)";
+    const sql = "SELECT m.* FROM module m WHERE m.moduleCode NOT IN(SELECT moduleCode FROM RegisteredModule r WHERE r.nusnetid = $1 AND r.ay = $3 AND r.sem = $4 AND r.round = $5) AND m.moduleCode NOT IN (SELECT moduleCode FROM enrolledModule r WHERE r.nusnetid = $1 AND grade <> 'U' AND grade <> 'F')  AND ((LOWER(m.modulecode) LIKE '%' || $2 ||'%') OR (LOWER(m.moduleName) LIKE '%' || $2 || '%')) AND (m.sem is null or m.sem=$4)";
     var searchedValue = req.body.searchedValue;
-    const params = [req.user.nusnetid, searchedValue.toLowerCase(), req.user.sem];
+    const params = [req.user.nusnetid, searchedValue.toLowerCase(), req.user.ay, req.user.sem, req.user.round];
 
     pool.query(sql, params, (error, result) => {
 
@@ -121,7 +136,8 @@ router.post('/searchModules', ensureAuthenticated, function (req, res) {
         } else {
             res.render('registerNewModule', {
                 modules: result.rows,
-                searchedValue: searchedValue
+                searchedValue: searchedValue,
+                user: req.user
             })
         }
     });
@@ -169,7 +185,7 @@ router.post('/registerModule/:moduleCode', ensureAuthenticated, function (req, r
                 var i;
                 var check = 0;
                 var prereqMessage = JSON.stringify(prereqList[0].prereqmodulecode);
-                
+
                 console.log(prereqList);
                 console.log(prereqList[0]);
                 console.log(prereqMessage);
@@ -219,7 +235,12 @@ router.post('/registerModule/:moduleCode', ensureAuthenticated, function (req, r
         else {
             pool.query(sql, params, (error, result) => {
                 if (error) {
-                    console.log('err: ', error);
+
+
+                    res.redirect('/modules/registerNewModule/' + "Module registration fails: Reached credit limit");
+                    // console.log('asdasdsadsadsadsadsad');
+                    // console.log('err: ', error);
+
                 } else {
                     res.redirect('/modules/registerNewModule');
                 }
@@ -229,8 +250,6 @@ router.post('/registerModule/:moduleCode', ensureAuthenticated, function (req, r
         .catch((error) => {
             console.log(error);
         });
-
-
 });
 
 router.post('/removeModule/:moduleCode', ensureAuthenticated, function (req, res) {
@@ -263,11 +282,12 @@ router.get('/adminViewAllModules', ensureAuthenticated, function (req, res) {
 });
 
 router.post('/viewModuleDetail/:modulecode/:modulename', ensureAuthenticated, function (req, res) {
-    const sql = 'Select distinct ay, sem from enrolledModule WHERE modulecode = $1 ORDER BY ay desc, sem desc';
+    // const sql = 'Select distinct ay, sem from enrolledModule WHERE modulecode = $1 ORDER BY ay desc, sem desc';
+    const sql = 'Select distinct ay, sem from period ORDER BY ay desc, sem desc';
     const sql2 = 'select u.fname, u.lname, s.year, s.course , e.* from enrolledModule e inner join users u on e.nusnetid = u.nusnetid inner join student s on e.nusnetid = s.nusnetid Where moduleCode = $1 AND e.ay = (Select ay from enrolledModule WHERE modulecode = $1 ORDER BY ay desc, sem desc limit 1) AND e.sem = (Select sem from enrolledModule WHERE modulecode = $1 ORDER BY ay desc, sem desc limit 1)';
     const sql3 = 'Select ay, sem from period order by ay desc, sem desc limit 1';
     const sql4 = "Select * from Prerequisite where moduleCode = $1 ORDER BY prereqmodulecode";
-    const params = [req.params.modulecode];
+    // const params = [req.params.modulecode];
     const params2 = [req.params.modulecode];
     const params4 = [req.params.modulecode];
 
@@ -286,7 +306,7 @@ router.post('/viewModuleDetail/:modulecode/:modulename', ensureAuthenticated, fu
                     currentAy = result3.rows[0].ay;
                     currentSem = result3.rows[0].sem;
 
-                    pool.query(sql, params, (error, result) => {
+                    pool.query(sql, (error, result) => {
                         if (error) {
                             console.log('err: ', error);
                         } else {
@@ -338,11 +358,12 @@ router.post('/viewModuleDetail/:modulecode/:modulename', ensureAuthenticated, fu
 
 
 router.post('/viewModuleDetail/:modulecode/:modulename/:i', ensureAuthenticated, function (req, res) {
-    const sql = 'Select distinct ay, sem from enrolledModule WHERE modulecode = $1 ORDER BY ay desc, sem desc';
+    // const sql = 'Select distinct ay, sem from enrolledModule WHERE modulecode = $1 ORDER BY ay desc, sem desc';
+    const sql = 'Select distinct ay, sem from period ORDER BY ay desc, sem desc';
     const sql2 = 'select u.fname, u.lname, s.year, s.course , e.* from enrolledModule e inner join users u on e.nusnetid = u.nusnetid inner join student s on e.nusnetid = s.nusnetid Where moduleCode = $1 AND e.ay = $2 AND e.sem = $3';
     const sql3 = 'Select ay, sem from period order by ay desc, sem desc limit 1';
     const sql4 = "Select * from Prerequisite where moduleCode = $1 ORDER BY prereqmodulecode";
-    const params = [req.params.modulecode];
+    // const params = [req.params.modulecode];
     var yearSem = req.body.ay;
     var ay = yearSem.substring(0, 5);
     var sem = yearSem.substring(5);
@@ -364,7 +385,7 @@ router.post('/viewModuleDetail/:modulecode/:modulename/:i', ensureAuthenticated,
                     currentAy = result3.rows[0].ay;
                     currentSem = result3.rows[0].sem;
 
-                    pool.query(sql, params, (error, result) => {
+                    pool.query(sql, (error, result) => {
                         if (error) {
                             console.log('err: ', error);
                         } else {
@@ -545,6 +566,61 @@ router.get('/editModule/:modulecode', ensureAuthenticated, function (req, res) {
     });
 });
 
+router.get('/editModule/:modulecode/:message', ensureAuthenticated, function (req, res) {
+    var modulecode = req.params.modulecode;
+
+    const sql = "Select * FROM Module WHERE modulecode = $1";
+    const sql2 = "Select * from Prerequisite where moduleCode = $1 ORDER BY prereqmodulecode";
+    const params = [modulecode];
+    const params2 = [modulecode];
+
+    pool.query(sql, params, (error, result) => {
+        if (error) {
+            console.log('err: ', error);
+        } else {
+            pool.query(sql2, params2, (error, result2) => {
+                if (error) {
+                    console.log('err: ', error);
+                } else {
+                    res.render('editModule', {
+                        module: result.rows[0],
+                        prereq: result2.rows,
+                        message: req.params.message
+                    })
+                }
+            });
+        }
+    });
+});
+
+
+router.get('/editModule/updateErr/:modulecode/fail', ensureAuthenticated, function (req, res) {
+    var modulecode = req.params.modulecode;
+
+    const sql = "Select * FROM Module WHERE modulecode = $1";
+    const sql2 = "Select * from Prerequisite where moduleCode = $1 ORDER BY prereqmodulecode";
+    const params = [modulecode];
+    const params2 = [modulecode];
+
+    pool.query(sql, params, (error, result) => {
+        if (error) {
+            console.log('err: ', error);
+        } else {
+            pool.query(sql2, params2, (error, result2) => {
+                if (error) {
+                    console.log('err: ', error);
+                } else {
+                    res.render('editModule', {
+                        module: result.rows[0],
+                        prereq: result2.rows,
+                        updatemessage: "Update Fail! There is currently more students enrolled in to the module than the new quota set"
+                    })
+                }
+            });
+        }
+    });
+});
+
 
 router.post('/removePrereq/:modulecode/:prereq', ensureAuthenticated, function (req, res) {
     var modulecode = req.params.modulecode;
@@ -587,7 +663,7 @@ router.post('/addStudent/:modulecode/:nusnetid/:year1/:year2/:sem', ensureAuthen
     var sem = req.params.sem;
     var round = 0
     var grade = '';
-    var status = 'Ongoing'
+    var status = 'Enrolled'
 
     const sql = "INSERT INTO enrolledModule VALUES($1, $2, $3, $4, $5, $6, $7);";
     const params = [nusnetid, modulecode, ay, sem, round, status, grade];
@@ -649,6 +725,7 @@ router.post('/updateModule/:oldModCode', ensureAuthenticated, function (req, res
 
     pool.query(sql, params, (error, result) => {
         if (error) {
+            res.redirect('/modules/editModule/updateErr/'+ modCode + '/fail');
             console.log('err: ', error);
         } else {
             res.redirect('/modules/adminViewAllModules');
@@ -665,6 +742,7 @@ router.post('/addPrereq/:modCode', ensureAuthenticated, function (req, res) {
 
     pool.query(sql, params, (error, result) => {
         if (error) {
+            res.redirect('/modules/editModule/' + modCode + '/'+ modCode +' is the prerequisite of ' + prereq );
             console.log('err: ', error);
         } else {
             res.redirect('/modules/editModule/' + modCode);
@@ -720,7 +798,7 @@ router.get('/viewRegisteredModule', ensureAuthenticated, function (req, res) {
                                 totalcredit: enrolCredit + registerCredit,
                                 enrolCredit: enrolCredit,
                                 registerCredit: registerCredit,
-                                creditLeft: (32 - registerCredit - enrolCredit) ,
+                                creditLeft: (32 - registerCredit - enrolCredit),
                                 round: req.user.round
                             })
                         }

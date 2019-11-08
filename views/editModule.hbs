@@ -69,6 +69,15 @@
                         </div>
                     </div>
 
+                    <div class="row mr-3">
+                        {{#if updatemessage}}
+
+                        <div class="error">
+                            <span style="color: red">{{updatemessage}}</span>
+                        </div>
+                        {{/if}}
+                    </div>
+
                     <div class="row">
                         <div class="col-lg-1">
                             <input type="submit" value="Save" class="btn btn-primary">
@@ -76,7 +85,9 @@
                         <div class="col-lg-1">
                             <a href="/modules/adminViewAllModules" class="btn btn-danger">Cancel</a>
                         </div>
+
                     </div>
+
                 </form>
             </div>
         </div>
@@ -92,7 +103,11 @@
                     <div class="form-group col-md-12">
                         <input type="submit" value="Add" class="btn btn-primary">
                     </div>
-
+                    {{#if message}}
+                    <div class="error">
+                        <span style="color: red">{{message}}</span>
+                    </div>
+                    {{/if}}
                 </form>
             </div>
         </div>
