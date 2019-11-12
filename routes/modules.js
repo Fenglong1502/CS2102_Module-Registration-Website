@@ -737,7 +737,7 @@ router.post('/addPrereq/:modCode', ensureAuthenticated, function (req, res) {
     var prereq = req.body.prereq;
     var modCode = req.params.modCode;
 
-    const sql = "INSERT INTO Prerequisite VALUES($1, $2 ,null)";
+    const sql = "INSERT INTO Prerequisite VALUES($1, $2)";
     const params = [modCode, prereq];
 
     pool.query(sql, params, (error, result) => {

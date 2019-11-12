@@ -55,11 +55,11 @@ router.post("/viewAppealDetails/:modulecode/:nusnetid/:year1/:year2/:sem/:round"
             console.log("err: ", error);
         }
         else {
-            if (result.rows[0].status === "Pending") {
+            if (result.rows[0].status == "Pending") {
                 isPending = true;
             }
             else {
-                if (result.rows[0].status === "Approved") {
+                if (result.rows[0].status == "Approved") {
                     isApproved = true;
                 }
             }
